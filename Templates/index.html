@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>QuakeSafe Navigator</title>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    body{background:linear-gradient(180deg,#f0f5ff 0,#e9f1ff 40%,#fff 100%);}
+    .fade-in{animation:fade 0.6s ease-in-out;}
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100 fade-in">
+
+<nav class="navbar navbar-dark bg-dark sticky-top">
+  <div class="container"><span class="navbar-brand fw-light">QuakeSafe Navigator</span></div>
+</nav>
+
+<div class="container my-5">
+  <div class="card shadow-sm mx-auto" style="max-width:700px">
+    <div class="card-body">
+      <h5 class="card-title mb-4">Find the safest route away from recent quakes</h5>
+      <form method="post" class="row gy-2 gx-2">
+        <div class="col-md-6">
+          <label class="form-label">Origin address</label>
+          <input name="origin" class="form-control" required placeholder="e.g., 1410 NE Campus Pkwy, Seattle">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Destination / safe location</label>
+          <input name="dest" class="form-control" required placeholder="e.g., Husky Stadium, Seattle">
+        </div>
+        <div class="col-12 d-grid mt-3">
+          <button class="btn btn-dark btn-lg">Check route</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="mt-auto bg-dark text-white-50 text-center py-2 small">
+  Data © OpenStreetMap &amp; GraphHopper • USGS quake feed
+</footer>
+
+<script src="https://unpkg.com/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+

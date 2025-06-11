@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Route result | QuakeSafe</title>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    body{background:#f8f9fb}
+    #map{height:460px}
+  </style>
+</head>
+<body class="fade-in">
+
+<nav class="navbar navbar-dark bg-dark sticky-top">
+  <div class="container"><span class="navbar-brand fw-light">QuakeSafe Navigator</span></div>
+</nav>
+
+<div class="container my-4">
+  <h2 class="mb-3">Route summary</h2>
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-2">{{ origin }} → {{ dest }}</h5>
+      <p class="mb-2">
+        <span class="badge text-bg-primary">{{ route.distance_km }} km</span>
+        <span class="badge text-bg-secondary">{{ route.time_min }} min</span>
+        Safety&nbsp;check:
+        {% if safe %}
+          <span class="badge text-bg-success">SAFE</span>
+        {% else %}
+          <span class="badge text-bg-danger">UNSAFE</span>
+        {% endif %}
+      </p>
+      {% if quake %}
+        <p class="small text-muted mb-0">
+          Latest quake ≥ 3 M: {{ quake[0] }} M at {{ quake[1][0]|round(2) }}, {{ quake[1][1]|round(2) }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div id="map" class="mb-4 rounded shadow-sm"></div>
+
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">← Check another</a>
+</div>
+
+<footer class="mt-auto bg-dark text-white-50 text-center py-2 small">
+  Map © OSM &amp; Leaflet • Routing © GraphHopper
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const coords = {{ coords_json|safe }};
+  const map = L.map('map',{scrollWheelZoom:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {attribution:'&copy; OpenStreetMap'}
+  ).addTo(map);
+
+  const line = L.polyline(coords,{color:'royalblue',weight:5}).addTo(map);
+  map.fitBounds(line.getBounds(),{padding:[30,30]});
+
+  {% if quake %}
+    L.circleMarker([{{ quake[1][0] }},{{ quake[1][1] }}],
+      {radius:6,color:'red',fillColor:'red',fillOpacity:0.8}
+    ).addTo(map).bindPopup('Quake epicenter');
+  {% endif %}
+</script>
+</body>
+</html>
+
+
+
+
+
