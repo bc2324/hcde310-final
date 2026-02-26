@@ -4,7 +4,9 @@ import requests
 import math
 import os
 
-GRAPHOPPER_KEY = (os.getenv("GRAPHOPPER_KEY") or "").strip()
+print("GRAPHOPPER_KEY loaded:", bool(GRAPHOPPER_KEY), "len:", len(GRAPHOPPER_KEY))
+
+GRAPHOPPER_KEY = os.getenv("GRAPHOPPER_KEY")
 
 if not GRAPHOPPER_KEY:
     raise RuntimeError("GRAPHOPPER_KEY is missing")
