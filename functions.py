@@ -3,7 +3,8 @@ from geopy.geocoders import Nominatim
 from dotenv import load_dotenv
 
 load_dotenv()
-KEY = os.getenv("GRAPHOPPER_KEY")
+KEY = (os.getenv("GRAPHOPPER_KEY") or "").strip()
+KEY = KEY.replace("GRAPHOPPER_KEY=", "").strip()
 if not KEY:
     raise RuntimeError("GRAPHOPPER_KEY missing")
 
