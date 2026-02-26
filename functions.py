@@ -1,9 +1,9 @@
-import os, math, ssl, requests, polyline
-from geopy.geocoders import Nominatim
+import os
 
-KEY = (os.getenv("GRAPHOPPER_KEY") or "").strip()
-if not KEY:
-    raise RuntimeError("GRAPHOPPER_KEY missing")
+GRAPHOPPER_KEY = (os.getenv("GRAPHOPPER_KEY") or "").strip()
+
+if not GRAPHOPPER_KEY:
+    raise RuntimeError("GRAPHOPPER_KEY is missing")
 
 _secure = Nominatim(user_agent="quakesafe", timeout=5)
 _insecure_ctx = ssl.create_default_context()
@@ -44,7 +44,7 @@ def route_safe(coords, quake, radius=20):
 GH = "https://graphhopper.com/api/1/route"
 def get_route(orig, dest):
     params = {
-        "key": KEY,
+        "key": GRAPHOPPER_KEY,
         "vehicle": "car",
         "point": [f"{orig[0]},{orig[1]}", f"{dest[0]},{dest[1]}"],
         "points_encoded": "false",
