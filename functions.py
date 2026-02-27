@@ -49,15 +49,19 @@ def route_safe(coords, quake, radius=20):
     return all(haversine(pt, eq) >= radius for pt in coords)
 
 GH = "https://graphhopper.com/api/1/route"
+
 def get_route(orig, dest):
     params = {
-        "key": GRAPHOPPER_KEY,
-        "vehicle": "car",
+        "key": (GRAPHOPPER_KEY or "").strip(),
+        "profile": "car",              # <-- vehicle yerine profile
         "point": [f"{orig[0]},{orig[1]}", f"{dest[0]},{dest[1]}"],
         "points_encoded": "false",
     }
     r = requests.get(GH, params=params, timeout=10)
+    if r.status_code != 200:
+        print("GraphHopper:", r.status_code, r.text)
     r.raise_for_status()
+
     path = r.json()["paths"][0]
     coords = [(p[1], p[0]) for p in path["points"]["coordinates"]]
     return {
